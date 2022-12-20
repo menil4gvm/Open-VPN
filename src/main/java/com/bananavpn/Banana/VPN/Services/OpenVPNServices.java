@@ -88,11 +88,11 @@ public class OpenVPNServices {
 			headers.add("charset", "utf-8");
 			headers.add("user-agent", "Application");
 			headers.add("Authorization", "Bearer " + refreshToken());
-			//headers.add("Authorization", "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnRfZG9tYWluIjoibWVuaWw0Z3ZtIiwiYXVkIjpbImNwLXJlc291cmNlIl0sInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdLCJleHAiOjE2NzEyMTc5ODMsImF1dGhvcml0aWVzIjpbIkFQSV9PQVVUSF9TRUMiLCJBUElfVVNFUiJdLCJqdGkiOiJmNGI1ZTI1ZS1iNGI1LTRjMTUtOWQxNi0zYTkwZmY4YjRhMGYiLCJjbGllbnRfaWQiOiJKM0pkM0VkcEJzUDdjbllNVXNUWUt4WWJDMTltaWFybC5tZW5pbDRndm0ifQ.ZnAAqG_CoyppaR4gXSCZErY-64hYEXaGP1gbN4lJdZd_IKL1nNHWqAEYP8ZjNZxaRFAfZofCTkOCXwIKtuBeN-H98wkz6PDYJb9x4kYQpfojymfi-Ng6vdcfyKO_2B5r6HmMhqjSnZnkgvv7Y9OefW3zWVovpDej7mAJUnrI-VD3HUrHxqSnOAFXy-LaGBggWY5jUlOFv9-Fz__HGRFjWzYIhh6eq3pTce9Om2PDmO7o2wj8tLvBdwjSBUiUq1cEXcajt-vKPjOzXgnrAvZgUanwiJUYCAqcG9YNHFq6qnLshMUHVGJ_rr9Az31xFIv5fjbPcanNKhkAJ43NMx3MjQ");
 			HttpEntity<MultiValueMap<String, String>> formEntity = new HttpEntity<>(headers, headers);
 			
 			ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, formEntity,String.class);
 			//List<Region> listConnector = responseEntity.getBody();
+			//System.out.println(responseEntity.getBody());
 			
 			return responseEntity.getBody();
 		}
@@ -110,8 +110,7 @@ public class OpenVPNServices {
 			headers.setAccept(Arrays.asList(MediaType.APPLICATION_FORM_URLENCODED));
 			headers.add("charset", "utf-8");
 			headers.add("user-agent", "Application");
-			//headers.add("Authorization", "Bearer " + refreshToken());
-			headers.add("Authorization", "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnRfZG9tYWluIjoibWVuaWw0Z3ZtIiwiYXVkIjpbImNwLXJlc291cmNlIl0sInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdLCJleHAiOjE2NzEyMTc5ODMsImF1dGhvcml0aWVzIjpbIkFQSV9PQVVUSF9TRUMiLCJBUElfVVNFUiJdLCJqdGkiOiJmNGI1ZTI1ZS1iNGI1LTRjMTUtOWQxNi0zYTkwZmY4YjRhMGYiLCJjbGllbnRfaWQiOiJKM0pkM0VkcEJzUDdjbllNVXNUWUt4WWJDMTltaWFybC5tZW5pbDRndm0ifQ.ZnAAqG_CoyppaR4gXSCZErY-64hYEXaGP1gbN4lJdZd_IKL1nNHWqAEYP8ZjNZxaRFAfZofCTkOCXwIKtuBeN-H98wkz6PDYJb9x4kYQpfojymfi-Ng6vdcfyKO_2B5r6HmMhqjSnZnkgvv7Y9OefW3zWVovpDej7mAJUnrI-VD3HUrHxqSnOAFXy-LaGBggWY5jUlOFv9-Fz__HGRFjWzYIhh6eq3pTce9Om2PDmO7o2wj8tLvBdwjSBUiUq1cEXcajt-vKPjOzXgnrAvZgUanwiJUYCAqcG9YNHFq6qnLshMUHVGJ_rr9Az31xFIv5fjbPcanNKhkAJ43NMx3MjQ");
+			headers.add("Authorization", "Bearer " + refreshToken());
 			HttpEntity<MultiValueMap<String, String>> formEntity = new HttpEntity<>(headers, headers);
 			
 			ResponseEntity<List<Region>> responseEntity = restTemplate.exchange(url, HttpMethod.GET, formEntity,new ParameterizedTypeReference<List<Region>>() {});

@@ -17,13 +17,19 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.bananavpn.Banana.VPN.Model.Connector;
 import com.bananavpn.Banana.VPN.Model.ConnectorResult;
+import com.bananavpn.Banana.VPN.Model.Favorite;
 import com.bananavpn.Banana.VPN.Model.OpenVPN;
 import com.bananavpn.Banana.VPN.Model.Region;
+import com.bananavpn.Banana.VPN.Model.Users;
+import com.bananavpn.Banana.VPN.Repository.FavoriteRepository;
 import com.bananavpn.Banana.VPN.Response.ApiResponse;
 import com.bananavpn.Banana.VPN.Response.ListResponse;
 import com.bananavpn.Banana.VPN.Services.OpenVPNServices;
@@ -34,6 +40,8 @@ import com.google.gson.JsonObject;
 
 @RestController
 public class OpenVPNController {
+	@Autowired
+	FavoriteRepository favoriteRepository;
 	@Autowired
 	RestTemplate restTemplate;
 	
@@ -47,6 +55,23 @@ public class OpenVPNController {
 	@Value("${secretid}")
 	private String secretid;
 	
+	@PostMapping("/addtofavorite")
+	public ResponseEntity<?> addToFavorite(@RequestBody Favorite favorite) {
+		try {
+			System.out.println(favorite.getuserid() + " = " + favorite.getconnectorid());
+			System.out.println(favoriteRepository.existsByUseridAndConnectorid(favorite.getuserid(), favorite.getconnectorid()));
+			if(favoriteRepository.existsByUseridAndConnectorid(favorite.getuserid(), favorite.getconnectorid()))
+			{
+				favoriteRepository.deleteFavoriteByUseridAndConnectorid(favorite.getuserid(), favorite.getconnectorid());
+			}
+			favoriteRepository.save(favorite);
+			return new ResponseEntity<ApiResponse>(new ApiResponse(200, "Success!",true,null), HttpStatus.OK);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
 	@GetMapping("/refreshaccesstoken")
 	public ResponseEntity<?> RefreshAccessToken() {
 		try {
@@ -57,26 +82,27 @@ public class OpenVPNController {
 		}
 	}
 	
-	@GetMapping("/getopenvpn")
-	public ResponseEntity<?> getOpenVPN() {
+	@GetMapping("/getserverlist")
+	public ResponseEntity<ListResponse> getServerList(@RequestParam("userid") String userid) {
 		try {
-			//System.out.println("Enter in get open VPN");
 			List<OpenVPN> newlistOpenVPN = new ArrayList<OpenVPN>();
 			List<Connector> listConnectors = openVPNServices.getConnector();
 			
 			List<Region> listregion = openVPNServices.getRegions();
 			for(int i=0;i<listConnectors.size();i++)
 			{
-				//System.out.println("Connector Id : " + listConnectors.get(i).getVpnRegionId());
 				for(int r=0;r<listregion.size();r++)
 				{
 					if(listregion.get(r).getId().equalsIgnoreCase(listConnectors.get(i).getVpnRegionId()))
 					{
 						OpenVPN objopenvpn = new OpenVPN();
 						
-						//System.out.println(listConnectors.get(i).getName() + " = > " + listregion.get(r).getId());
+						//System.out.println(listConnectors.get(i).getId() + " = > " + listregion.get(r).getId());
+						objopenvpn.setconnectorid(listConnectors.get(i).getId());
+						objopenvpn.setipV4Address(listConnectors.get(i).getIpV4Address());
+						objopenvpn.setisfavorite(favoriteRepository.existsByUseridAndConnectoridAndIsfavorite(userid,listConnectors.get(i).getId(),true));
 						objopenvpn.setopenvpn(openVPNServices.getOvpn(listConnectors.get(i).getId()));
-						objopenvpn.setregions(listregion.get(r));
+						objopenvpn.setregion(listregion.get(r));
 						
 						newlistOpenVPN.add(objopenvpn);
 					}
@@ -89,6 +115,11 @@ public class OpenVPNController {
 		}
 	}
 	
+	private Boolean existsByUseridAndConnectoridAndIsfavorite(String userid, String id, boolean b) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	@GetMapping("/getconnector")
 	public ResponseEntity<?> getConnector() {
 		try {
