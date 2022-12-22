@@ -68,7 +68,7 @@ public class OpenVPNController {
 			return new ResponseEntity<ApiResponse>(new ApiResponse(200, "Success!",true,null), HttpStatus.OK);
 		}
 		catch (Exception e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<ApiResponse>(new ApiResponse(500,e.getMessage(),false,null), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	

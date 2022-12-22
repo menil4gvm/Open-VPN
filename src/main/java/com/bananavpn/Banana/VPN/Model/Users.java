@@ -14,7 +14,7 @@ public class Users {
 	private String lastname;
 	private String email;
 	private String password;
-	private Boolean isgooglesignin;
+	private Boolean isgooglesignin=false;
 	public long createtimestamp=0;
 	public long updatetimestamp=0;
 	private Boolean isdeleted=false;

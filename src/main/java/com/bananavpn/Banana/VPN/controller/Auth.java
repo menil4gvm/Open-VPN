@@ -26,7 +26,7 @@ public class Auth {
 			//users.setPassword(passwordEncoder.encode(users.getPassword()));
 			if(userRepository.existsByEmailIgnoreCase(users.getEmail()))
 			{
-				return new ResponseEntity<ApiResponse>(new ApiResponse(400, "User Already Registered with this email!",false,null), HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<ApiResponse>(new ApiResponse(200, "User Already Registered with this email!",false,null), HttpStatus.OK);
 			}
 			else
 			{
@@ -44,12 +44,12 @@ public class Auth {
 	public ResponseEntity<?> signIn(@RequestBody LoginRequest loginRequest) {
 		try
 		{
-			if(userRepository.existsByEmailIgnoreCase(loginRequest.getEmail()))
+			if(userRepository.existsByEmailIgnoreCaseAndPassword(loginRequest.getEmail(),loginRequest.getPassword()))
 			{
 				Optional<Users> objUser = userRepository.findByEmailIgnoreCase(loginRequest.getEmail());
 				if(objUser.get().getisgooglesignin())
 				{
-					return new ResponseEntity<ApiResponse>(new ApiResponse(200, "Google Login successfully!",true,objUser), HttpStatus.OK);
+					return new ResponseEntity<ApiResponse>(new ApiResponse(200, "You account is sign in with google!",false,null), HttpStatus.OK);
 				}
 				else
 				{
@@ -59,7 +59,7 @@ public class Auth {
 			}
 			else
 			{
-				return new ResponseEntity<ApiResponse>(new ApiResponse(404, "Email and Password was not match!",false,null), HttpStatus.NOT_FOUND);
+				return new ResponseEntity<ApiResponse>(new ApiResponse(200, "Email or password is invalid!",false,null), HttpStatus.OK);
 			}
 		}
 		catch(Exception ex)

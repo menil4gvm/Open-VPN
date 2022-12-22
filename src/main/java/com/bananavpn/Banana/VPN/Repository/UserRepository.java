@@ -10,8 +10,10 @@ public interface UserRepository extends MongoRepository<Users, String> {
 	Boolean existsByEmailIgnoreCase(String email);
 	Boolean existsByEmailIgnoreCaseAndPassword(String email,String Password);
 	Boolean existsByEmailIgnoreCaseAndIsgooglesignin(String email,Boolean isgooglesignin);
+	Boolean existsByEmailIgnoreCaseAndPasswordAndIsgooglesignin(String email,String password,Boolean isgooglesignin);
 	
 	Optional<Users> findByEmailIgnoreCaseAndPassword(String email,String Password);
+	Optional<Users> findByEmailIgnoreCaseAndPasswordAndIsgooglesignin(String email,String Password,Boolean isgooglesignin);
 	Optional<Users> findByEmailIgnoreCase(String email);
 	Optional<Users> findByEmailIgnoreCaseAndIsgooglesignin(String email,Boolean isgooglesignin);
 }
