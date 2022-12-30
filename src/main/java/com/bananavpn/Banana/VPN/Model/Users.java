@@ -1,5 +1,7 @@
 package com.bananavpn.Banana.VPN.Model;
 
+import java.util.Optional;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -15,11 +17,13 @@ public class Users {
 	private String email;
 	private String password;
 	private Boolean isgooglesignin=false;
-	public long createtimestamp=0;
-	public long updatetimestamp=0;
+	public long createtimestamp=System.currentTimeMillis();
+	public long updatetimestamp=System.currentTimeMillis();
 	private Boolean isdeleted=false;
 	private Boolean isactive=false;
-	private Boolean issubcribe=false;
+	private Boolean issubscribe=false;
+	private Boolean istrial=false;
+	private SubscriptionDetails subscriptiondetails;
 	  
 	public void User(String firstname,String lastname, String email,String password,
 			  Boolean isgooglesignin,long createtimestamp,long updatetimestamp)
@@ -29,9 +33,11 @@ public class Users {
 	    this.email = email;
 	    this.password = password;
 	    this.isgooglesignin = isgooglesignin;
+		this.subscriptiondetails=new SubscriptionDetails();
 	    this.isdeleted = false;
 	    this.isactive = false;
-	    this.issubcribe=false;
+	    this.issubscribe=false;
+	    this.istrial=true;
 	    this.createtimestamp=createtimestamp;
 	    this.updatetimestamp=updatetimestamp;
 	 }
@@ -67,12 +73,10 @@ public class Users {
 	    this.email = email;
 	}
 	
-	@JsonIgnore
+	@JsonIgnore //for ignore password when getting user details
 	public String getPassword() {
 	    return password;
 	}
-
-	@JsonProperty
 	public void setPassword(String password) {
 	    this.password = password;
 	}
@@ -117,11 +121,27 @@ public class Users {
 	    this.isactive = isactive;
 	}
 	
-	public Boolean getissubcribe() {
-	    return issubcribe;
+	public Boolean getissubscribe() {
+	    return issubscribe;
 	}
 	
-	public void setissubcribe(Boolean issubcribe) {
-	    this.issubcribe = issubcribe;
+	public void setissubscribe(Boolean issubscribe) {
+	    this.issubscribe = issubscribe;
+	}
+	
+	public Boolean getistrial() {
+	    return istrial;
+	}
+	
+	public void setistrial(Boolean istrial) {
+	    this.istrial = istrial;
+	}
+	
+	public SubscriptionDetails getSubscriptionDetails() {
+	    return subscriptiondetails;
+	}
+	
+	public void setSubscriptionDetails(SubscriptionDetails subscriptiondetails) {
+	    this.subscriptiondetails = subscriptiondetails;
 	}
 }

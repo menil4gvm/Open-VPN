@@ -1,42 +1,25 @@
 package com.bananavpn.Banana.VPN.controller;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-
 import com.bananavpn.Banana.VPN.Model.Connector;
-import com.bananavpn.Banana.VPN.Model.ConnectorResult;
 import com.bananavpn.Banana.VPN.Model.Favorite;
 import com.bananavpn.Banana.VPN.Model.OpenVPN;
 import com.bananavpn.Banana.VPN.Model.Region;
-import com.bananavpn.Banana.VPN.Model.Users;
 import com.bananavpn.Banana.VPN.Repository.FavoriteRepository;
 import com.bananavpn.Banana.VPN.Response.ApiResponse;
 import com.bananavpn.Banana.VPN.Response.ListResponse;
 import com.bananavpn.Banana.VPN.Services.OpenVPNServices;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 @RestController
 public class OpenVPNController {
@@ -55,11 +38,10 @@ public class OpenVPNController {
 	@Value("${secretid}")
 	private String secretid;
 	
+	//method for add/remove server from favorite
 	@PostMapping("/addtofavorite")
 	public ResponseEntity<?> addToFavorite(@RequestBody Favorite favorite) {
 		try {
-			System.out.println(favorite.getuserid() + " = " + favorite.getconnectorid());
-			System.out.println(favoriteRepository.existsByUseridAndConnectorid(favorite.getuserid(), favorite.getconnectorid()));
 			if(favoriteRepository.existsByUseridAndConnectorid(favorite.getuserid(), favorite.getconnectorid()))
 			{
 				favoriteRepository.deleteFavoriteByUseridAndConnectorid(favorite.getuserid(), favorite.getconnectorid());
@@ -72,6 +54,7 @@ public class OpenVPNController {
 		}
 	}
 	
+	//method for generate refresh token for open vpn
 	@GetMapping("/refreshaccesstoken")
 	public ResponseEntity<?> RefreshAccessToken() {
 		try {
@@ -82,6 +65,7 @@ public class OpenVPNController {
 		}
 	}
 	
+	//method for getting all server list
 	@GetMapping("/getserverlist")
 	public ResponseEntity<ListResponse> getServerList(@RequestParam("userid") String userid) {
 		try {
@@ -115,11 +99,7 @@ public class OpenVPNController {
 		}
 	}
 	
-	private Boolean existsByUseridAndConnectoridAndIsfavorite(String userid, String id, boolean b) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	//method for get all connector list
 	@GetMapping("/getconnector")
 	public ResponseEntity<?> getConnector() {
 		try {

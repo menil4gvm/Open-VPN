@@ -19,10 +19,13 @@ public class Auth {
 	@Autowired
 	UserRepository userRepository;
 		
+	//method for register user
 	@PostMapping("/signup")
 	public ResponseEntity<?> signUp(@RequestBody Users users) {
 		try
 		{
+			users.setcreatetimestamp(System.currentTimeMillis());
+			users.setupdatetimestamp(System.currentTimeMillis());
 			//users.setPassword(passwordEncoder.encode(users.getPassword()));
 			if(userRepository.existsByEmailIgnoreCase(users.getEmail()))
 			{
@@ -40,6 +43,7 @@ public class Auth {
 		}
 	}
 	
+	//method for login user
 	@PostMapping("/signin")
 	public ResponseEntity<?> signIn(@RequestBody LoginRequest loginRequest) {
 		try
@@ -68,6 +72,7 @@ public class Auth {
 		}
 	}
 	
+	//method for login/register with google
 	@PostMapping("/googlesignin")
 	public ResponseEntity<?> GoogleSignIn(@RequestBody Users users) {
 		try
@@ -80,6 +85,8 @@ public class Auth {
 			else
 			{
 				users.setisgooglesignin(true);
+				users.setcreatetimestamp(System.currentTimeMillis());
+				users.setupdatetimestamp(System.currentTimeMillis());
 				userRepository.save(users);
 				Optional<Users> objUser = userRepository.findByEmailIgnoreCaseAndIsgooglesignin(users.getEmail(),true);
 				return new ResponseEntity<ApiResponse>(new ApiResponse(200, "User Sign in successfully!", true,objUser), HttpStatus.OK);

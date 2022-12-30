@@ -38,6 +38,11 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
         </dependency>
+        <dependency>
+		    <groupId>com.stripe</groupId>
+		    <artifactId>stripe-java</artifactId>
+		    <version>20.77.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
