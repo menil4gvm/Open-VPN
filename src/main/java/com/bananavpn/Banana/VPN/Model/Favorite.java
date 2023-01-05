@@ -12,12 +12,12 @@ public class Favorite {
     public void setuserid(String userid) { 
 		 this.userid = userid; } 
     String userid;
-    @JsonProperty("connectorid") 
-    public String getconnectorid() { 
-		 return this.connectorid; } 
-    public void setconnectorid(String connectorid) { 
-		 this.connectorid = connectorid; } 
-    String connectorid;
+    @JsonProperty("serverid") 
+    public String getserverid() { 
+		 return this.serverid; } 
+    public void setserverid(String serverid) { 
+		 this.serverid = serverid; } 
+    String serverid;
     @JsonProperty("isfavorite") 
     public Boolean getisfavorite() { 
 		 return this.isfavorite; } 

@@ -22,8 +22,8 @@ public class Users {
 	private Boolean isdeleted=false;
 	private Boolean isactive=false;
 	private Boolean issubscribe=false;
-	private Boolean istrial=false;
-	private SubscriptionDetails subscriptiondetails;
+	private Boolean istrial=true;
+	private SubscriptionDetails subscriptiondetails=null;
 	  
 	public void User(String firstname,String lastname, String email,String password,
 			  Boolean isgooglesignin,long createtimestamp,long updatetimestamp)
@@ -33,7 +33,7 @@ public class Users {
 	    this.email = email;
 	    this.password = password;
 	    this.isgooglesignin = isgooglesignin;
-		this.subscriptiondetails=new SubscriptionDetails();
+		this.subscriptiondetails=null;
 	    this.isdeleted = false;
 	    this.isactive = false;
 	    this.issubscribe=false;
@@ -73,7 +73,6 @@ public class Users {
 	    this.email = email;
 	}
 	
-	@JsonIgnore //for ignore password when getting user details
 	public String getPassword() {
 	    return password;
 	}

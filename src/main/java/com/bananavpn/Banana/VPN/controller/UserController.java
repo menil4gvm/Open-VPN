@@ -1,5 +1,7 @@
 package com.bananavpn.Banana.VPN.controller;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -44,6 +46,7 @@ public class UserController {
 				
 				objUser.get().setSubscriptionDetails(newSub);
 				objUser.get().setissubscribe(true);
+				objUser.get().setistrial(false);
 				objUser.get().setcreatetimestamp(objUser.get().getcreatetimestamp());
 				objUser.get().setupdatetimestamp(System.currentTimeMillis());
 				
@@ -76,12 +79,27 @@ public class UserController {
 		         {
 		        	 objUser.get().setistrial(false);
 		         }
+		         
+		         if(objUser.get().getissubscribe()==true)
+	        	 {
+	        		 objUser.get().setistrial(false);
+	        	 }
+		         
 		         if(objUser.get().getSubscriptionDetails()!=null)
 		         {
+		        	 
 		        	 Date subscriptiondate = toDate(objUser.get().getSubscriptionDetails().getcreatedtimestamps());
 			         if(objUser.get().getSubscriptionDetails().getinterval().equalsIgnoreCase("year"))
 			         {
 			        	 if(getDiffrenceInYear(userdate,subscriptiondate)>=0)
+				         {
+				        	 objUser.get().setissubscribe(false);
+				         }
+			         }
+			         
+			         if(objUser.get().getSubscriptionDetails().getinterval().equalsIgnoreCase("month"))
+			         {
+			        	 if(getDiffrenceInDays(userdate,subscriptiondate)>30)
 				         {
 				        	 objUser.get().setissubscribe(false);
 				         }
@@ -114,20 +132,20 @@ public class UserController {
 
         long difference_In_Days = (difference_In_Time / (1000 * 60 * 60 * 24)) % 365;
 
-        System.out.print("Difference " + "between two dates is: ");
+        System.out.print("Diffrence in date : " + d1 +" - " + d2 + " : " + difference_In_Days);
 
-        System.out.println(
-                difference_In_Years
-                + " years, "
-                + difference_In_Days
-                + " days, "
-                + difference_In_Hours
-                + " hours, "
-                + difference_In_Minutes
-                + " minutes, "
-                + difference_In_Seconds
-                + " seconds");
-        
+//        System.out.println(
+//                difference_In_Years
+//                + " years, "
+//                + difference_In_Days
+//                + " days, "
+//                + difference_In_Hours
+//                + " hours, "
+//                + difference_In_Minutes
+//                + " minutes, "
+//                + difference_In_Seconds
+//                + " seconds");
+      
 		return difference_In_Days;
 	}
 	
@@ -145,9 +163,9 @@ public class UserController {
 
         long difference_In_Days = (difference_In_Time / (1000 * 60 * 60 * 24)) % 365;
 
-        System.out.print("Difference " + "between two dates is: ");
+        System.out.println("Diffrence in date : " + d1 +" - " + d2 + " : " + difference_In_Years);
 
-        System.out.println(difference_In_Years + " years");
+        //System.out.println(difference_In_Years + " years");
         
 		return difference_In_Years;
 	}
