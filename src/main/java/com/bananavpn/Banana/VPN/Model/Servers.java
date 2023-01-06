@@ -12,24 +12,35 @@ public class Servers {
 	@JsonProperty("id") 
     public String getid() { 
 		 return this.id; } 
-	@JsonProperty("userid") 
-    public String getuserid() { 
-		 return this.userid; } 
-    public void setuserid(String userid) { 
-		 this.userid = userid; } 
-    String userid;
+    
+    @JsonProperty("username") 
+    public String getusername() { 
+		 return this.username; } 
+    public void setusername(String username) { 
+		 this.username = username; } 
+    String username;
+    
+    @JsonProperty("password ") 
+    public String getpassword () { 
+		 return this.password ; } 
+    public void setpassword (String password ) { 
+		 this.password  = password ; } 
+    String password ;
+    
 	@JsonProperty("ipV4Address") 
     public String getipV4Address() { 
 		 return this.ipV4Address; } 
     public void setipV4Address(String ipV4Address) { 
 		 this.ipV4Address = ipV4Address; } 
     String ipV4Address;
+    
     @JsonProperty("isfavorite") 
     public Boolean getisfavorite() { 
 		 return this.isfavorite; } 
     public void setisfavorite(Boolean isfavorite) { 
 		 this.isfavorite = isfavorite; } 
     Boolean isfavorite=false;
+    
 	@JsonProperty("openvpn") 
     public String getopenvpn() { 
 		 return this.openvpn; } 

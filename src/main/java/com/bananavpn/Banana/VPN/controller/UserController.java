@@ -1,25 +1,28 @@
 package com.bananavpn.Banana.VPN.controller;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.bananavpn.Banana.VPN.Model.Note;
 import com.bananavpn.Banana.VPN.Model.SubscriptionDetails;
 import com.bananavpn.Banana.VPN.Model.Users;
 import com.bananavpn.Banana.VPN.Repository.UserRepository;
 import com.bananavpn.Banana.VPN.Response.ApiResponse;
 import com.bananavpn.Banana.VPN.Response.ListResponse;
+import com.bananavpn.Banana.VPN.Services.FirebaseMessagingService;
+import com.google.firebase.messaging.FirebaseMessagingException;
 
 @RestController
 public class UserController {
@@ -28,7 +31,18 @@ public class UserController {
 	@Autowired
 	RestTemplate restTemplate;
 	
-	//method for update subscription deatsils in user model after payment success
+	@Autowired
+	FirebaseMessagingService firebaseService;
+
+
+	@RequestMapping("/send-notification")
+	@ResponseBody
+	public String sendNotification(@RequestBody Note note,
+	              @RequestParam String topic) throws FirebaseMessagingException {
+		return firebaseService.sendNotification(note, topic);
+	}
+	
+	//method for update subscription details in user model after payment success
 	@PostMapping("/updatesubscriptiondetails")
 	public ResponseEntity<?> updateSubscriptionDetails(@RequestParam("userid") String userid,
 			@RequestParam("customerid") String customerid,
