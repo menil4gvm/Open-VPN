@@ -146,7 +146,7 @@ public class UserController {
 
         long difference_In_Days = (difference_In_Time / (1000 * 60 * 60 * 24)) % 365;
 
-        System.out.print("Diffrence in date : " + d1 +" - " + d2 + " : " + difference_In_Days);
+        System.out.println("Diffrence in date : " + d1 +" - " + d2 + " : " + difference_In_Days);
 
 //        System.out.println(
 //                difference_In_Years

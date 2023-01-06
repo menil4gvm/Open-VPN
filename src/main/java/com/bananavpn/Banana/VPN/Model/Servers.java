@@ -20,12 +20,12 @@ public class Servers {
 		 this.username = username; } 
     String username;
     
-    @JsonProperty("password ") 
+    @JsonProperty("password") 
     public String getpassword () { 
-		 return this.password ; } 
-    public void setpassword (String password ) { 
-		 this.password  = password ; } 
-    String password ;
+		 return this.password; } 
+    public void setpassword (String password) { 
+		 this.password = password; } 
+    String password;
     
 	@JsonProperty("ipV4Address") 
     public String getipV4Address() { 
